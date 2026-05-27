@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Your Secret Gift Experience 🎁</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#FFF5F5;
+  --bg2:#FDFBF7;
+  --card:#FFFFFF;
+  --red:#c0392b;
+  --red2:#e74c3c;
+  --rose:#8B0000;
+  --gold:#b5860d;
+  --gold2:#d4a843;
+  --text:#2c1810;
+  --text2:#6b4c44;
+  --text3:#a07060;
+  --border:#f0d5cc;
+  --border2:#e8c4b8;
+  --input:#fdf8f6;
+  --focus:#fff0ee;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);min-height:100vh;font-family:'DM Sans',sans-serif;color:var(--text);}
+
+/* HERO */
+.hero{background:linear-gradient(160deg,#1a0000,#2d0000,#1a0508);text-align:center;padding:52px 24px 44px;position:relative;overflow:hidden;}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:40px;background:var(--bg);border-radius:40px 40px 0 0;}
+.hero-stars{position:absolute;inset:0;pointer-events:none;}
+.hstar{position:absolute;background:white;border-radius:50%;animation:htw ease infinite;}
+@keyframes htw{0%,100%{opacity:.05;}50%{opacity:.7;}}
+.hero-tag{display:inline-block;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.35);color:#d4a843;font-size:10px;letter-spacing:3px;padding:6px 16px;border-radius:20px;margin-bottom:18px;text-transform:uppercase;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,8vw,52px);line-height:1.05;color:white;margin-bottom:10px;}
+.hero-title span{background:linear-gradient(135deg,#d4a843,#f39c12);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{color:rgba(255,255,255,.55);font-size:15px;max-width:440px;margin:0 auto 24px;font-family:'Cormorant Garamond',serif;font-style:italic;line-height:1.7;}
+
+/* PRICE CARDS */
+.price-cards{display:flex;gap:12px;justify-content:center;margin-bottom:8px;flex-wrap:wrap;}
+.price-card{background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:16px;padding:14px 22px;text-align:center;cursor:pointer;transition:all .25s;min-width:130px;}
+.price-card.active{border-color:#d4a843;background:rgba(212,168,67,.12);}
+.price-card-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:4px;}
+.price-card-amount{font-family:'Cormorant Garamond',serif;font-size:28px;color:#d4a843;font-weight:600;}
+.price-card-note{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;}
+
+/* PROGRESS */
+.progress-wrap{background:var(--bg);padding:16px 20px 0;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(192,57,43,.06);}
+.progress-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.progress-text{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);}
+.progress-pct{font-size:12px;font-weight:600;color:var(--red);}
+.progress-bar{height:3px;background:var(--border);border-radius:10px;margin-bottom:12px;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--gold2));border-radius:10px;transition:width .4s ease;width:0%;}
+
+/* WRAP */
+.form-wrap{max-width:580px;margin:0 auto;padding:28px 20px 60px;}
+
+/* SECTION */
+.section{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:26px 22px;margin-bottom:16px;box-shadow:0 2px 16px rgba(192,57,43,.05);}
+.section-head{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.section-num{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--red),var(--rose));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:white;flex-shrink:0;}
+.section-info{}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--rose);line-height:1.1;}
+.section-sub{font-size:12px;color:var(--text3);margin-top:2px;}
+
+/* FIELD */
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);margin-bottom:7px;font-weight:500;}
+.field label .req{color:var(--red);margin-left:2px;}
+.field input,.field select,.field textarea{width:100%;background:var(--input);border:1.5px solid var(--border2);border-radius:12px;padding:13px 15px;color:var(--text);font-size:15px;font-family:'DM Sans',sans-serif;outline:none;transition:all .25s;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--red);background:var(--focus);box-shadow:0 0 0 3px rgba(192,57,43,.07);}
+.field input::placeholder,.field textarea::placeholder{color:var(--text3);opacity:.7;}
+.field select{cursor:pointer;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23a07060' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;}
+.field textarea{resize:vertical;min-height:96px;line-height:1.6;}
+.field-hint{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.5;}
+.field-err{font-size:11px;color:var(--red);margin-top:5px;display:none;}
+.field-err.show{display:block;}
+
+/* STUDENT TOGGLE */
+.student-toggle{display:flex;gap:10px;margin-bottom:4px;}
+.stbtn{flex:1;padding:13px;border-radius:12px;border:1.5px solid var(--border2);background:var(--input);color:var(--text2);font-size:14px;cursor:pointer;transition:all .25s;font-family:'DM Sans',sans-serif;font-weight:500;text-align:center;}
+.stbtn.active{border-color:var(--red);background:#fff0ee;color:var(--red);font-weight:600;}
+
+/* PROOF BOX */
+.proof-box{display:none;background:#fff8f6;border:1.5px dashed var(--border2);border-radius:14px;padding:16px;margin-top:12px;}
+.proof-box.show{display:block;}
+.proof-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:10px;font-weight:600;}
+.proof-opts{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;}
+.proof-opt{flex:1;min-width:120px;padding:10px 14px;border-radius:10px;border:1.5px solid var(--border2);background:white;color:var(--text2);font-size:13px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;text-align:center;}
+.proof-opt.active{border-color:var(--red);background:#fff0ee;color:var(--red);font-weight:600;}
+
+/* TONE PILLS */
+.tone-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.tone-pill{padding:9px 16px;border-radius:50px;border:1.5px solid var(--border2);background:var(--input);color:var(--text2);font-size:13px;cursor:pointer;transition:all .2s;user-select:none;}
+.tone-pill input{display:none;}
+.tone-pill.selected{border-color:var(--red);background:#fff0ee;color:var(--red);font-weight:500;}
+
+/* UPLOAD */
+.upload-zone{border:2px dashed var(--border2);border-radius:14px;padding:22px 16px;text-align:center;cursor:pointer;transition:all .25s;position:relative;background:var(--input);}
+.upload-zone:hover{border-color:var(--red);background:var(--focus);}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-icon{font-size:26px;margin-bottom:6px;}
+.upload-text{color:var(--text3);font-size:13px;line-height:1.5;}
+.upload-text strong{color:var(--red);}
+.upload-count{font-size:12px;font-weight:600;margin-top:6px;}
+.upload-count.ok{color:#27ae60;}
+.upload-count.warn{color:var(--red);}
+.preview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px;}
+.prev-thumb{aspect-ratio:1;border-radius:8px;object-fit:cover;border:1.5px solid var(--border);}
+
+/* SINGLE UPLOAD */
+.single-upload{border:1.5px solid var(--border2);border-radius:14px;padding:18px 14px;text-align:center;cursor:pointer;transition:all .25s;position:relative;background:var(--input);}
+.single-upload:hover{border-color:var(--red);background:var(--focus);}
+.single-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.single-preview{width:80px;height:80px;border-radius:10px;object-fit:cover;border:1.5px solid var(--border);margin:8px auto 0;display:none;}
+
+/* PRIVACY */
+.privacy-box{background:#fff8f6;border:1px solid var(--border2);border-radius:16px;padding:18px;margin-bottom:16px;}
+.privacy-icon{font-size:20px;margin-bottom:8px;}
+.privacy-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:8px;font-weight:600;}
+.privacy-text{color:var(--text2);font-size:12px;line-height:1.7;}
+
+/* PAYMENT INFO */
+.payment-box{background:linear-gradient(135deg,#fff8f0,#fff5f5);border:1px solid #f0d0c0;border-radius:16px;padding:18px;margin-bottom:16px;}
+.payment-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#b5860d;margin-bottom:10px;font-weight:600;}
+.payment-text{color:var(--text2);font-size:13px;line-height:1.7;}
+.payment-amount{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--rose);font-weight:600;margin-top:8px;}
+.payment-note{font-size:11px;color:var(--text3);margin-top:4px;}
+
+/* CONSENT */
+.consent-box{background:#fdf8f6;border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:16px;}
+.consent-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--rose);margin-bottom:12px;font-weight:600;}
+.consent-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;cursor:pointer;}
+.consent-item:last-child{margin-bottom:0;}
+.consent-item input{width:18px;height:18px;accent-color:var(--red);cursor:pointer;flex-shrink:0;margin-top:1px;}
+.consent-item span{font-size:13px;color:var(--text2);line-height:1.5;}
+
+/* RADIO */
+.radio-group{display:flex;flex-direction:column;gap:8px;}
+.radio-item{display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:var(--input);transition:all .2s;}
+.radio-item:hover{border-color:var(--border2);}
+.radio-item input{accent-color:var(--red);width:16px;height:16px;flex-shrink:0;}
+.radio-item span{font-size:14px;color:var(--text2);}
+
+/* DIVIDER */
+.divider{display:flex;align-items:center;gap:12px;margin:16px 0;}
+.divider-line{flex:1;height:1px;background:var(--border);}
+.divider-text{font-size:11px;color:var(--text3);letter-spacing:1px;white-space:nowrap;}
+
+/* SUBMIT */
+.submit-wrap{text-align:center;padding-top:8px;}
+.submit-btn{background:linear-gradient(135deg,var(--red),var(--rose));color:white;border:none;padding:18px 56px;border-radius:50px;font-size:16px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 8px 30px rgba(192,57,43,.3);transition:all .25s;width:100%;max-width:340px;letter-spacing:.5px;}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(192,57,43,.4);}
+.submit-btn:active{transform:scale(.97);}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.submit-note{color:var(--text3);font-size:11px;margin-top:10px;letter-spacing:.5px;}
+
+/* SUCCESS */
+.success-screen{display:none;text-align:center;padding:60px 24px;max-width:480px;margin:0 auto;}
+.success-icon{font-size:72px;margin-bottom:20px;}
+.success-title{font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--rose);margin-bottom:12px;}
+.success-sub{color:var(--text2);font-size:15px;line-height:1.7;font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:24px;}
+.success-wa{display:inline-flex;align-items:center;gap:8px;background:#25d366;color:white;padding:14px 28px;border-radius:50px;font-size:14px;font-weight:600;text-decoration:none;font-family:'DM Sans',sans-serif;}
+
+/* HIDDEN */
+.hidden{display:none;}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-stars" id="hstars"></div>
+  <div class="hero-tag">&#127873; NexBuilds — Secret Gift Experience</div>
+  <h1 class="hero-title">Create Something<br/><span>Unforgettable</span></h1>
+  <p class="hero-sub">Fill in the details below and we'll craft a personalised interactive gift experience your loved one will never forget.</p>
+  <div class="price-cards">
+    <div class="price-card active" id="pc-student" onclick="selectPrice('student')">
+      <div class="price-card-label">&#127979; Student</div>
+      <div class="price-card-amount">&#8377;299</div>
+      <div class="price-card-note">ID proof required</div>
+    </div>
+    <div class="price-card" id="pc-nonstudent" onclick="selectPrice('nonstudent')">
+      <div class="price-card-label">&#128188; Non-Student</div>
+      <div class="price-card-amount">&#8377;499</div>
+      <div class="price-card-note">No proof needed</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-label">
+    <div class="progress-text">Form Progress</div>
+    <div class="progress-pct" id="progressPct">0%</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="form-wrap">
+
+<!-- PRIVACY -->
+<div class="privacy-box">
+  <div class="privacy-icon">&#128274;</div>
+  <div class="privacy-title">Privacy Notice</div>
+  <div class="privacy-text">All photos you share are used solely to create your gift experience and are deleted manually after delivery. We never store, share, or reuse your personal images. Your trust means everything to us.</div>
+</div>
+
+<form id="orderForm" action="https://formspree.io/f/xbdbaqey" method="POST">
+<input type="hidden" name="selected_plan" id="hiddenPlan" value="Student - Rs.299"/>
+
+<!-- SECTION 1: YOUR DETAILS -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">1</div>
+    <div class="section-info">
+      <div class="section-title">Your Details</div>
+      <div class="section-sub">Who is placing this order?</div>
+    </div>
+  </div>
+  <div class="field">
+    <label>Your Full Name <span class="req">*</span></label>
+    <input type="text" name="your_name" placeholder="Rahul Sharma" required/>
+  </div>
+  <div class="field">
+    <label>Your WhatsApp Number <span class="req">*</span></label>
+    <input type="tel" name="whatsapp" placeholder="+91 98765 43210" required/>
+  </div>
+  <div class="field">
+    <label>Your Email</label>
+    <input type="email" name="email" placeholder="yourname@gmail.com"/>
+    <div class="field-hint">Optional — for order confirmation copy</div>
+  </div>
+
+  <!-- STUDENT / NON STUDENT -->
+  <div class="field">
+    <label>Are you a Student? <span class="req">*</span></label>
+    <div class="student-toggle">
+      <div class="stbtn active" id="stbtn-yes" onclick="setStudent(true)">&#127979; Yes, I am a Student</div>
+      <div class="stbtn" id="stbtn-no" onclick="setStudent(false)">&#128188; No, I am not</div>
+    </div>
+    <div class="field-hint" id="price-hint">Student price: <strong>&#8377;299</strong> — ID proof required below</div>
+  </div>
+
+  <!-- STUDENT PROOF -->
+  <div class="proof-box show" id="proofBox">
+    <div class="proof-title">&#128196; Upload ID Proof</div>
+    <div class="field-hint" style="margin-bottom:10px;font-size:12px;">Select which ID you are uploading:</div>
+    <div class="proof-opts">
+      <div class="proof-opt active" id="proof-school" onclick="selectProof('school')">&#127979; School / College ID</div>
+      <div class="proof-opt" id="proof-aadhar" onclick="selectProof('aadhar')">&#128196; Aadhaar Card</div>
+    </div>
+    <div class="single-upload" id="proofUploadZone">
+      <input type="file" name="student_id_proof" id="proofFile" accept="image/*,.pdf" onchange="previewProof(this)"/>
+      <div class="upload-icon">&#128196;</div>
+      <div class="upload-text"><strong>Tap to upload</strong><br/><span id="proofTypeLabel">School / College ID Card</span><br/>JPG, PNG or PDF — max 5MB</div>
+      <img class="single-preview" id="proofPreview" src="" alt=""/>
+    </div>
+    <div class="field-hint" style="margin-top:8px;">&#128274; Your ID is used only for verification and deleted immediately after.</div>
+  </div>
+</div>
+
+<!-- SECTION 2: RECIPIENT -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">2</div>
+    <div class="section-info">
+      <div class="section-title">About the Recipient</div>
+      <div class="section-sub">Who is this gift for?</div>
+    </div>
+  </div>
+  <div class="field">
+    <label>Recipient's Full Name <span class="req">*</span></label>
+    <input type="text" name="recipient_name" placeholder="Priya Sharma" required/>
+  </div>
+  <div class="field">
+    <label>Pet Name / Nickname <span class="req">*</span></label>
+    <input type="text" name="nickname" placeholder="e.g. Baby, Love, Sunshine, Jaan" required/>
+    <div class="field-hint">This will appear on the gift pages</div>
+  </div>
+  <div class="field">
+    <label>Occasion <span class="req">*</span></label>
+    <select name="occasion" required>
+      <option value="" disabled selected>Select occasion</option>
+      <option>&#127874; Birthday</option>
+      <option>&#128149; Anniversary</option>
+      <option>&#128157; Valentine's Day</option>
+      <option>&#128205; Long Distance Surprise</option>
+      <option>&#127881; Just Because</option>
+      <option>&#128142; Proposal</option>
+      <option>Other</option>
+    </select>
+  </div>
+  <div class="field">
+    <label>Delivery Needed By <span class="req">*</span></label>
+    <input type="date" name="delivery_date" required/>
+    <div class="field-hint">We deliver within 24 hours of receiving all details</div>
+  </div>
+</div>
+
+<!-- SECTION 3: PASSCODE -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">3</div>
+    <div class="section-info">
+      <div class="section-title">Passcode & Lock Screen</div>
+      <div class="section-sub">Your partner enters this to unlock the gift</div>
+    </div>
+  </div>
+  <div class="field">
+    <label>4-Digit Secret Passcode <span class="req">*</span></label>
+    <input type="text" name="passcode" placeholder="e.g. 2509" maxlength="4" pattern="[0-9]{4}" inputmode="numeric" required/>
+    <div class="field-hint">Use your anniversary date, their birthday, or any special number</div>
+  </div>
+  <div class="field">
+    <label>Hint Text for Passcode <span class="req">*</span></label>
+    <input type="text" name="passcode_hint" placeholder="e.g. our first date &#128144;" required/>
+    <div class="field-hint">A small clue shown below the keypad</div>
+  </div>
+</div>
+
+<!-- SECTION 4: LOVE NOTE -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">4</div>
+    <div class="section-info">
+      <div class="section-title">Love Note Customisation</div>
+      <div class="section-sub">We'll write it beautifully based on your words</div>
+    </div>
+  </div>
+  <div class="field">
+    <label>Your Personal Message <span class="req">*</span></label>
+    <textarea name="love_message" placeholder="Write from your heart... e.g. From the moment I met you, I knew you were something special. Every day with you feels like a dream I never want to wake up from..." required></textarea>
+  </div>
+  <div class="field">
+    <label>Any Specific Memories to Include?</label>
+    <textarea name="memories" placeholder="e.g. Our first trip to Shillong, the rainy evening we got stuck together, the night we watched stars on the rooftop..."></textarea>
+    <div class="field-hint">Optional — we'll weave these naturally into the note</div>
+  </div>
+  <div class="field">
+    <label>Tone of the Love Note <span class="req">*</span></label>
+    <div class="tone-pills" id="tonePills">
+      <label class="tone-pill"><input type="radio" name="note_tone" value="Deeply Romantic" required/> &#128149; Deeply Romantic</label>
+      <label class="tone-pill"><input type="radio" name="note_tone" value="Emotional and Heartfelt"/> &#128557; Emotional</label>
+      <label class="tone-pill"><input type="radio" name="note_tone" value="Funny and Playful"/> &#128514; Funny & Playful</label>
+      <label class="tone-pill"><input type="radio" name="note_tone" value="Mix of All"/> &#10024; Mix of All</label>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 5: PAGE CUSTOMISATION -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">5</div>
+    <div class="section-info">
+      <div class="section-title">Page Customisation</div>
+      <div class="section-sub">Personalise every page of the gift</div>
+    </div>
+  </div>
+  <div class="field">
+    <label>Congratulations Page — Your Message</label>
+    <input type="text" name="congrats_message" placeholder="e.g. Today is all about you, my love &#127874;"/>
+    <div class="field-hint">Shown after they unlock with the passcode</div>
+  </div>
+  <div class="field">
+    <label>Gift Box Page — Custom Message</label>
+    <input type="text" name="giftbox_message" placeholder="e.g. I made this just for you, will you open it? &#127801;"/>
+  </div>
+  <div class="field">
+    <label>Gallery Caption Style</label>
+    <select name="gallery_style">
+      <option value="" disabled selected>Select style</option>
+      <option>Romantic and Poetic</option>
+      <option>Funny and Cute</option>
+      <option>Simple and Sweet</option>
+      <option>Use my own captions</option>
+    </select>
+  </div>
+  <div class="field">
+    <label>Custom Photo Captions (Optional)</label>
+    <textarea name="photo_captions" placeholder="One caption per line e.g.&#10;Photo 1: The day everything changed &#10024;&#10;Photo 2: My favourite smile &#128149;&#10;Photo 3: Us against the world &#127758;"></textarea>
+  </div>
+  <div class="field">
+    <label>Any Other Special Instructions</label>
+    <textarea name="other_instructions" placeholder="Anything else you want us to know, add, or change..."></textarea>
+  </div>
+</div>
+
+<!-- SECTION 6: MYSTERY -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">6</div>
+    <div class="section-info">
+      <div class="section-title">Mystery Surprise</div>
+      <div class="section-sub">The YouTube song reveal at the end</div>
+    </div>
+  </div>
+  <div class="field">
+    <label>YouTube Song / Video Link <span class="req">*</span></label>
+    <input type="url" name="youtube_link" placeholder="https://youtube.com/watch?v=..." required/>
+    <div class="field-hint">Your special song, a video message, or a memory video</div>
+  </div>
+  <div class="field">
+    <label>Why is this song special?</label>
+    <input type="text" name="song_meaning" placeholder="e.g. This was playing on our first date &#127925;"/>
+    <div class="field-hint">Shown as a caption on the mystery reveal page</div>
+  </div>
+</div>
+
+<!-- SECTION 7: PHOTOS -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">7</div>
+    <div class="section-info">
+      <div class="section-title">Upload Your Photos</div>
+      <div class="section-sub">Individual key photos + gallery collection</div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Cover Photo <span class="req">*</span></label>
+    <div class="single-upload">
+      <input type="file" name="cover_photo" accept="image/*" onchange="previewSingle(this,'cprev')"/>
+      <div class="upload-icon">&#127775;</div>
+      <div class="upload-text"><strong>Tap to upload</strong><br/>Your favourite photo of them or you both</div>
+      <img class="single-preview" id="cprev" src="" alt=""/>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Congratulations Page Photo <span class="req">*</span></label>
+    <div class="single-upload">
+      <input type="file" name="congrats_photo" accept="image/*" onchange="previewSingle(this,'conprev')"/>
+      <div class="upload-icon">&#127881;</div>
+      <div class="upload-text"><strong>Tap to upload</strong><br/>Childhood or throwback photo works great</div>
+      <img class="single-preview" id="conprev" src="" alt=""/>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Love Note Photo 1 <span class="req">*</span></label>
+    <div class="single-upload">
+      <input type="file" name="note_photo_1" accept="image/*" onchange="previewSingle(this,'np1prev')"/>
+      <div class="upload-icon">&#128140;</div>
+      <div class="upload-text"><strong>Tap to upload</strong><br/>A sweet photo for the love letter page</div>
+      <img class="single-preview" id="np1prev" src="" alt=""/>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Love Note Photo 2 <span class="req">*</span></label>
+    <div class="single-upload">
+      <input type="file" name="note_photo_2" accept="image/*" onchange="previewSingle(this,'np2prev')"/>
+      <div class="upload-icon">&#128140;</div>
+      <div class="upload-text"><strong>Tap to upload</strong><br/>Another photo for the love letter page</div>
+      <img class="single-preview" id="np2prev" src="" alt=""/>
+    </div>
+  </div>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-text">&#128247; GALLERY PHOTOS</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- GALLERY MULTI UPLOAD -->
+  <div class="field">
+    <label>Gallery Photos <span class="req">*</span> — Minimum 10, Maximum 20</label>
+    <div class="upload-zone" id="galleryZone">
+      <input type="file" name="gallery_photos" accept="image/*" multiple id="galleryInput" onchange="handleGallery(this)"/>
+      <div class="upload-icon">&#128444;</div>
+      <div class="upload-text"><strong>Tap to select photos</strong><br/>Select 10 to 20 photos at once<br/>JPG, PNG — max 10MB each</div>
+      <div class="upload-count" id="galleryCount"></div>
+    </div>
+    <div class="field-err" id="galleryErr"></div>
+    <div class="preview-grid" id="galleryPreview"></div>
+  </div>
+</div>
+
+<!-- SECTION 8: SOURCE -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-num">8</div>
+    <div class="section-info">
+      <div class="section-title">How Did You Find Us?</div>
+      <div class="section-sub">Just curious &#128522;</div>
+    </div>
+  </div>
+  <div class="radio-group">
+    <label class="radio-item"><input type="radio" name="source" value="Instagram"/> <span>&#128247; Instagram</span></label>
+    <label class="radio-item"><input type="radio" name="source" value="WhatsApp"/> <span>&#128242; WhatsApp</span></label>
+    <label class="radio-item"><input type="radio" name="source" value="Friend Referral"/> <span>&#128101; Friend Referral</span></label>
+    <label class="radio-item"><input type="radio" name="source" value="Other"/> <span>&#127760; Other</span></label>
+  </div>
+</div>
+
+<!-- PAYMENT INFO -->
+<div class="payment-box">
+  <div class="payment-title">&#128176; Payment Information</div>
+  <div class="payment-text">Payment is collected via WhatsApp after we confirm your order. We will message you within 2 hours of submission with UPI payment details.</div>
+  <div class="payment-amount" id="paymentAmount">&#8377;299 — Student Price</div>
+  <div class="payment-note">&#9888;&#65039; Payment must be confirmed before we start building your gift</div>
+</div>
+
+<!-- CONSENT -->
+<div class="consent-box">
+  <div class="consent-title">&#9989; Consent & Agreement</div>
+  <label class="consent-item">
+    <input type="checkbox" name="consent_1" required/>
+    <span>I confirm I own the rights to all photos I am uploading and consent to them being used to create this gift experience.</span>
+  </label>
+  <label class="consent-item">
+    <input type="checkbox" name="consent_2" required/>
+    <span>I understand my photos will be used only to build my personalised gift and will be deleted after delivery.</span>
+  </label>
+  <label class="consent-item">
+    <input type="checkbox" name="consent_3" required/>
+    <span>I agree this is a digital product — no physical item will be shipped. No refunds after delivery.</span>
+  </label>
+  <label class="consent-item">
+    <input type="checkbox" name="consent_4" required/>
+    <span>I confirm payment will be made via WhatsApp before delivery starts.</span>
+  </label>
+</div>
+
+<!-- SUBMIT -->
+<div class="submit-wrap">
+  <button type="submit" class="submit-btn" id="submitBtn">&#127873; Submit My Order</button>
+  <div class="submit-note">&#128242; We will WhatsApp you within 2 hours to confirm</div>
+</div>
+
+</form>
+
+<!-- SUCCESS -->
+<div class="success-screen" id="successScreen">
+  <div class="success-icon">&#127881;</div>
+  <div class="success-title">Order Received!</div>
+  <p class="success-sub">"Thank you so much! Your secret gift experience is now being crafted with love. Expect a WhatsApp message within 2 hours to confirm your order and payment details."</p>
+  <a href="https://wa.me/91XXXXXXXXXX" class="success-wa">&#128242; Chat on WhatsApp</a>
+</div>
+
+</div>
+
+<script>
+// Hero stars
+var hs=document.getElementById('hstars');
+for(var i=0;i<30;i++){
+  var s=document.createElement('div');s.className='hstar';
+  var sz=0.6+Math.random()*2.2;
+  s.style.cssText='left:'+Math.floor(Math.random()*100)+'%;top:'+Math.floor(Math.random()*100)+'%;width:'+sz+'px;height:'+sz+'px;animation-duration:'+(1.5+Math.random()*3).toFixed(1)+'s;animation-delay:'+(Math.random()*3).toFixed(1)+'s;';
+  hs.appendChild(s);
+}
+
+// Price selection
+var isStudent=true;
+function selectPrice(type){
+  isStudent=(type==='student');
+  document.getElementById('pc-student').classList.toggle('active',isStudent);
+  document.getElementById('pc-nonstudent').classList.toggle('active',!isStudent);
+  document.getElementById('stbtn-yes').classList.toggle('active',isStudent);
+  document.getElementById('stbtn-no').classList.toggle('active',!isStudent);
+  document.getElementById('proofBox').classList.toggle('show',isStudent);
+  document.getElementById('hiddenPlan').value=isStudent?'Student - Rs.299':'Non-Student - Rs.499';
+  document.getElementById('paymentAmount').innerHTML=isStudent?'&#8377;299 &mdash; Student Price':'&#8377;499 &mdash; Standard Price';
+  document.getElementById('price-hint').innerHTML=isStudent?'Student price: <strong>&#8377;299</strong> &mdash; ID proof required below':'Standard price: <strong>&#8377;499</strong> &mdash; No proof needed';
+  updateProgress();
+}
+
+function setStudent(val){
+  selectPrice(val?'student':'nonstudent');
+}
+
+// Proof type
+var proofType='school';
+function selectProof(type){
+  proofType=type;
+  document.getElementById('proof-school').classList.toggle('active',type==='school');
+  document.getElementById('proof-aadhar').classList.toggle('active',type==='aadhar');
+  document.getElementById('proofTypeLabel').textContent=type==='school'?'School / College ID Card':'Aadhaar Card';
+}
+
+// Proof preview
+function previewProof(input){
+  if(input.files&&input.files[0]){
+    var file=input.files[0];
+    if(file.type.startsWith('image/')){
+      var reader=new FileReader();
+      reader.onload=function(e){
+        var img=document.getElementById('proofPreview');
+        img.src=e.target.result;img.style.display='block';
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  updateProgress();
+}
+
+// Single preview
+function previewSingle(input,prevId){
+  if(input.files&&input.files[0]){
+    var reader=new FileReader();
+    reader.onload=function(e){
+      var img=document.getElementById(prevId);
+      img.src=e.target.result;img.style.display='block';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+  updateProgress();
+}
+
+// Gallery validation
+var galleryValid=false;
+function handleGallery(input){
+  var files=input.files;
+  var count=files?files.length:0;
+  var countEl=document.getElementById('galleryCount');
+  var errEl=document.getElementById('galleryErr');
+  var prev=document.getElementById('galleryPreview');
+  prev.innerHTML='';
+  errEl.classList.remove('show');
+
+  if(count<10){
+    countEl.textContent=count+' photos selected — minimum 10 required';
+    countEl.className='upload-count warn';
+    errEl.textContent='Please select at least 10 photos to continue.';
+    errEl.classList.add('show');
+    galleryValid=false;
+  } else if(count>20){
+    countEl.textContent=count+' photos selected — maximum 20 allowed';
+    countEl.className='upload-count warn';
+    errEl.textContent='Too many photos! Please select a maximum of 20 photos.';
+    errEl.classList.add('show');
+    galleryValid=false;
+    input.value='';
+  } else {
+    countEl.textContent=count+' photos selected &#10003;';
+    countEl.className='upload-count ok';
+    galleryValid=true;
+    // show previews
+    Array.from(files).slice(0,8).forEach(function(f){
+      var reader=new FileReader();
+      reader.onload=function(e){
+        var img=document.createElement('img');
+        img.className='prev-thumb';img.src=e.target.result;
+        prev.appendChild(img);
+      };
+      reader.readAsDataURL(f);
+    });
+    if(count>8){
+      var more=document.createElement('div');
+      more.style.cssText='display:flex;align-items:center;justify-content:center;background:#fff0ee;border-radius:8px;font-size:12px;color:var(--red);font-weight:600;aspect-ratio:1;border:1.5px solid var(--border2);';
+      more.textContent='+'+(count-8)+' more';
+      prev.appendChild(more);
+    }
+  }
+  updateProgress();
+}
+
+// Tone pills
+document.querySelectorAll('.tone-pill input').forEach(function(r){
+  r.addEventListener('change',function(){
+    document.querySelectorAll('.tone-pill').forEach(function(p){p.classList.remove('selected');});
+    r.parentElement.classList.add('selected');
+    updateProgress();
+  });
+});
+
+// Progress
+function updateProgress(){
+  var required=document.querySelectorAll('input[required],select[required],textarea[required]');
+  var filled=0;
+  required.forEach(function(inp){
+    if(inp.type==='checkbox'){if(inp.checked)filled++;}
+    else if(inp.type==='radio'){
+      var name=inp.name;
+      if(document.querySelector('input[name="'+name+'"]:checked'))filled++;
+    }
+    else if(inp.type==='file'){if(inp.files&&inp.files.length>0)filled++;}
+    else if(inp.value.trim())filled++;
+  });
+  // gallery counts too
+  if(galleryValid)filled++;
+  var total=required.length+1;
+  var pct=Math.min(100,Math.round((filled/total)*100));
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressPct').textContent=pct+'%';
+}
+document.querySelectorAll('input,select,textarea').forEach(function(el){
+  el.addEventListener('input',updateProgress);
+  el.addEventListener('change',updateProgress);
+});
+
+// Submit
+document.getElementById('orderForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  // gallery validation check
+  if(!galleryValid){
+    document.getElementById('galleryErr').textContent='Please upload between 10 and 20 gallery photos before submitting.';
+    document.getElementById('galleryErr').classList.add('show');
+    document.getElementById('galleryZone').scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  var btn=document.getElementById('submitBtn');
+  btn.disabled=true;
+  btn.textContent='Sending your order...';
+  var formData=new FormData(this);
+  fetch('https://formspree.io/f/xbdbaqey',{
+    method:'POST',
+    body:formData,
+    headers:{Accept:'application/json'}
+  }).then(function(r){
+    if(r.ok){
+      document.getElementById('orderForm').style.display='none';
+      document.getElementById('successScreen').style.display='block';
+      window.scrollTo({top:0,behavior:'smooth'});
+    } else {
+      btn.disabled=false;
+      btn.textContent='Try Again';
+      alert('Something went wrong. Please try again or WhatsApp us directly.');
+    }
+  }).catch(function(){
+    btn.disabled=false;
+    btn.textContent='Try Again';
+    alert('Connection error. Please check your internet and try again.');
+  });
+});
+</script>
+</body>
+</html>
