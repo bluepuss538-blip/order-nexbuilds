@@ -98,7 +98,7 @@ body{background:var(--bg);min-height:100vh;font-family:'DM Sans',sans-serif;colo
 .tone-pill.selected{border-color:var(--red);background:#fff0ee;color:var(--red);font-weight:500;}
 
 /* UPLOAD */
-.upload-zone{border:2px dashed var(--border2);border-radius:14px;padding:22px 16px;text-align:center;cursor:pointer;transition:all .25s;position:relative;background:var(--input);}
+.upload-zone{border:2px dashed var(--border2);border-radius:14px;padding:22px 16px 14px;text-align:center;cursor:pointer;transition:all .25s;position:relative;background:var(--input);overflow:hidden;}
 .upload-zone:hover{border-color:var(--red);background:var(--focus);}
 .upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
 .upload-icon{font-size:26px;margin-bottom:6px;}
@@ -107,7 +107,7 @@ body{background:var(--bg);min-height:100vh;font-family:'DM Sans',sans-serif;colo
 .upload-count{font-size:12px;font-weight:600;margin-top:6px;}
 .upload-count.ok{color:#27ae60;}
 .upload-count.warn{color:var(--red);}
-.preview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px;}
+.preview-grid{display:flex;flex-wrap:nowrap;gap:6px;margin-top:12px;overflow-x:auto;padding-bottom:4px;max-width:100%;}
 .prev-thumb{aspect-ratio:1;border-radius:8px;object-fit:cover;border:1.5px solid var(--border);}
 
 /* SINGLE UPLOAD */
@@ -282,15 +282,15 @@ body{background:var(--bg);min-height:100vh;font-family:'DM Sans',sans-serif;colo
   </div>
   <div class="field">
     <label>Occasion <span class="req">*</span></label>
-    <select name="occasion" required>
+    <select name="occasion" required onchange="updateOccasion(this.value)">
       <option value="" disabled selected>Select occasion</option>
-      <option>&#127874; Birthday</option>
-      <option>&#128149; Anniversary</option>
-      <option>&#128157; Valentine's Day</option>
-      <option>&#128205; Long Distance Surprise</option>
-      <option>&#127881; Just Because</option>
-      <option>&#128142; Proposal</option>
-      <option>Other</option>
+      <option value="Birthday">&#127874; Birthday</option>
+      <option value="Anniversary">&#128149; Anniversary</option>
+      <option value="Valentines">&#128157; Valentine's Day</option>
+      <option value="LDR">&#128205; Long Distance Surprise</option>
+      <option value="JustBecause">&#127881; Just Because</option>
+      <option value="Proposal">&#128142; Proposal</option>
+      <option value="Other">Other</option>
     </select>
   </div>
   <div class="field">
@@ -360,9 +360,9 @@ body{background:var(--bg);min-height:100vh;font-family:'DM Sans',sans-serif;colo
     </div>
   </div>
   <div class="field">
-    <label>Congratulations Page — Your Message</label>
-    <input type="text" name="congrats_message" placeholder="e.g. Today is all about you, my love &#127874;"/>
-    <div class="field-hint">Shown after they unlock with the passcode</div>
+    <label id="congratsLabel">Unlock Page Message</label>
+    <input type="text" name="congrats_message" id="congratsInput" placeholder="e.g. Today is all about you, my love &#127874;"/>
+    <div class="field-hint" id="congratsHint">Shown after they unlock with the passcode</div>
   </div>
   <div class="field">
     <label>Gift Box Page — Custom Message</label>
@@ -635,23 +635,24 @@ function handleGallery(input){
     galleryValid=false;
     input.value='';
   } else {
-    countEl.textContent=count+' photos selected &#10003;';
+    countEl.innerHTML=count+' photos selected \u2713';
     countEl.className='upload-count ok';
     galleryValid=true;
-    // show previews
-    Array.from(files).slice(0,8).forEach(function(f){
+    // show max 3 thumbs only
+    Array.from(files).slice(0,3).forEach(function(f){
       var reader=new FileReader();
       reader.onload=function(e){
         var img=document.createElement('img');
         img.className='prev-thumb';img.src=e.target.result;
+        img.style.cssText='width:52px;height:52px;border-radius:8px;object-fit:cover;border:1.5px solid var(--border2);flex-shrink:0;';
         prev.appendChild(img);
       };
       reader.readAsDataURL(f);
     });
-    if(count>8){
+    if(count>3){
       var more=document.createElement('div');
-      more.style.cssText='display:flex;align-items:center;justify-content:center;background:#fff0ee;border-radius:8px;font-size:12px;color:var(--red);font-weight:600;aspect-ratio:1;border:1.5px solid var(--border2);';
-      more.textContent='+'+(count-8)+' more';
+      more.style.cssText='width:52px;height:52px;display:flex;align-items:center;justify-content:center;background:#fff0ee;border-radius:8px;font-size:11px;color:var(--red);font-weight:600;border:1.5px solid var(--border2);flex-shrink:0;';
+      more.textContent='+'+(count-3);
       prev.appendChild(more);
     }
   }
@@ -666,6 +667,53 @@ document.querySelectorAll('.tone-pill input').forEach(function(r){
     updateProgress();
   });
 });
+
+// Dynamic occasion labels
+var occasionData = {
+  'Birthday': {
+    label: '&#127874; Birthday — Unlock Page Message',
+    placeholder: 'e.g. Congratulations! Today is YOUR day &#127874;',
+    hint: 'Shown after they unlock — celebrate them!'
+  },
+  'Anniversary': {
+    label: '&#128149; Anniversary — Unlock Page Message',
+    placeholder: 'e.g. Happy Anniversary, my love &#128149; Another year of us',
+    hint: 'Shown after they unlock — make it romantic!'
+  },
+  'Valentines': {
+    label: '&#128157; Valentine\'s Day — Unlock Page Message',
+    placeholder: 'e.g. Happy Valentine\'s Day, my forever person &#128157;',
+    hint: 'Shown after they unlock — spread the love!'
+  },
+  'LDR': {
+    label: '&#128205; LDR — Unlock Page Message',
+    placeholder: 'e.g. I miss you more than words can say &#128205;',
+    hint: 'Shown after they unlock — remind them you\'re always there!'
+  },
+  'JustBecause': {
+    label: '&#127881; Just Because — Unlock Page Message',
+    placeholder: 'e.g. This is for you. Just because I love you &#127881;',
+    hint: 'Shown after they unlock — surprise them!'
+  },
+  'Proposal': {
+    label: '&#128142; Proposal — Unlock Page Message',
+    placeholder: 'e.g. I have something very important to ask you... &#128142;',
+    hint: 'Shown after they unlock — build the suspense!'
+  },
+  'Other': {
+    label: 'Unlock Page Message',
+    placeholder: 'e.g. This is all for you, my love &#128149;',
+    hint: 'Shown after they unlock with the passcode'
+  }
+};
+
+function updateOccasion(val) {
+  var data = occasionData[val];
+  if (!data) return;
+  document.getElementById('congratsLabel').innerHTML = data.label;
+  document.getElementById('congratsInput').placeholder = data.placeholder;
+  document.getElementById('congratsHint').textContent = data.hint;
+}
 
 // Progress
 function updateProgress(){
